@@ -1,0 +1,57 @@
+diff --git a/lab1/diagrams/activity-uml.png b/lab1/diagrams/activity-uml.png
+index e4f22c3..a0917ee 100644
+Binary files a/lab1/diagrams/activity-uml.png and b/lab1/diagrams/activity-uml.png differ
+diff --git a/lab1/diagrams/activity.drawio b/lab1/diagrams/activity.drawio
+index cf7aa00..d67caa8 100644
+--- a/lab1/diagrams/activity.drawio
++++ b/lab1/diagrams/activity.drawio
+@@ -11,7 +11,8 @@
+         <mxCell id="7" value="Клиент согласен?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="820" y="10" width="130" height="80" as="geometry"/></mxCell>
+         <mxCell id="8" value="Выполнить ремонт" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="1000" y="20" width="170" height="60" as="geometry"/></mxCell>
+         <mxCell id="9" value="Вернуть устройство" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="1000" y="140" width="170" height="60" as="geometry"/></mxCell>
+-        <mxCell id="10" value="" style="ellipse;html=1;aspect=fixed;shape=doubleEllipse;fillColor=#000000;" vertex="1" parent="1"><mxGeometry x="1220" y="85" width="36" height="36" as="geometry"/></mxCell>
++        <mxCell id="11" value="Проверить работоспособность" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="1210" y="20" width="190" height="60" as="geometry"/></mxCell>
++        <mxCell id="10" value="" style="ellipse;html=1;aspect=fixed;shape=doubleEllipse;fillColor=#000000;" vertex="1" parent="1"><mxGeometry x="1460" y="85" width="36" height="36" as="geometry"/></mxCell>
+         <!-- edges -->
+         <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="2" target="3"><mxGeometry relative="1" as="geometry"/></mxCell>
+         <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="3" target="4"><mxGeometry relative="1" as="geometry"/></mxCell>
+@@ -21,8 +22,9 @@
+         <mxCell id="e6" value="Да" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="7" target="8"><mxGeometry relative="1" as="geometry"/></mxCell>
+         <mxCell id="e7" value="Нет" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="7" target="9"><mxGeometry relative="1" as="geometry"/></mxCell>
+         <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="6" target="9"><mxGeometry relative="1" as="geometry"/></mxCell>
+-        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="8" target="10"><mxGeometry relative="1" as="geometry"/></mxCell>
++        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="8" target="11"><mxGeometry relative="1" as="geometry"/></mxCell>
+         <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="9" target="10"><mxGeometry relative="1" as="geometry"/></mxCell>
++        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="11" target="10"><mxGeometry relative="1" as="geometry"/></mxCell>
+       </root>
+     </mxGraphModel>
+   </diagram>
+diff --git a/lab1/docs/flowchart.md b/lab1/docs/flowchart.md
+index e3f9572..e9614ae 100644
+--- a/lab1/docs/flowchart.md
++++ b/lab1/docs/flowchart.md
+@@ -12,7 +12,9 @@ flowchart TD
+     G -- Нет --> J
+     G -- Да --> H[Выполнить ремонт]
+     H --> I[Проверить устройство]
+-    I --> K[Сообщить о готовности]
++    I --> M{Тест успешен?}
++    M -- Нет --> H
++    M -- Да --> K[Сообщить о готовности]
+     K --> J
+     J --> L([Конец])
+ ```
+diff --git a/lab1/docs/sequence.md b/lab1/docs/sequence.md
+index 4e4cd46..3ab39fc 100644
+--- a/lab1/docs/sequence.md
++++ b/lab1/docs/sequence.md
+@@ -14,6 +14,9 @@ sequenceDiagram
+     alt Клиент согласен
+         C->>A: Подтверждает ремонт
+         A->>T: Разрешает выполнение работ
++        loop Проверка до успешного результата
++            T->>T: Тестирует устройство
++        end
+         T-->>A: Сообщает о готовности
+         A-->>C: Приглашает забрать устройство
+     else Клиент отказывается
