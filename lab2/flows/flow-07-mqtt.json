@@ -1,0 +1,137 @@
+[
+  {
+    "id": "z07",
+    "type": "tab",
+    "label": "07 MQTT",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n07a",
+    "type": "inject",
+    "z": "z07",
+    "name": "Every 5 sec",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "5",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 150,
+    "y": 90,
+    "wires": [
+      [
+        "n07b"
+      ]
+    ]
+  },
+  {
+    "id": "n07b",
+    "type": "function",
+    "z": "z07",
+    "name": "Random value",
+    "func": "msg.payload=Math.floor(Math.random()*101); msg.topic=\"student/Gantsevich/lab2/random\"; return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 350,
+    "y": 90,
+    "wires": [
+      [
+        "n07c"
+      ]
+    ]
+  },
+  {
+    "id": "n07c",
+    "type": "mqtt out",
+    "z": "z07",
+    "name": "Publish",
+    "topic": "",
+    "qos": "0",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "mqttcfg",
+    "x": 550,
+    "y": 90,
+    "wires": []
+  },
+  {
+    "id": "n07d",
+    "type": "mqtt in",
+    "z": "z07",
+    "name": "Subscribe same topic",
+    "topic": "student/Gantsevich/lab2/random",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "mqttcfg",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 220,
+    "y": 180,
+    "wires": [
+      [
+        "n07e"
+      ]
+    ]
+  },
+  {
+    "id": "n07e",
+    "type": "debug",
+    "z": "z07",
+    "name": "MQTT received",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 520,
+    "y": 180,
+    "wires": []
+  },
+  {
+    "id": "mqttcfg",
+    "type": "mqtt-broker",
+    "name": "HiveMQ public",
+    "broker": "broker.hivemq.com",
+    "port": "1883",
+    "clientid": "gantsevich-lab2-node-red",
+    "autoConnect": true,
+    "usetls": false,
+    "protocolVersion": "4",
+    "keepalive": "60",
+    "cleansession": true,
+    "autoUnsubscribe": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "willMsg": {}
+  }
+]

@@ -1,0 +1,154 @@
+[
+  {
+    "id": "z08",
+    "type": "tab",
+    "label": "08 GET endpoints",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n08a",
+    "type": "http in",
+    "z": "z08",
+    "name": "GET /api/text",
+    "url": "/api/text",
+    "method": "get",
+    "upload": false,
+    "swaggerDoc": "",
+    "x": 160,
+    "y": 70,
+    "wires": [
+      [
+        "n08b"
+      ]
+    ]
+  },
+  {
+    "id": "n08b",
+    "type": "function",
+    "z": "z08",
+    "name": "Text response",
+    "func": "msg.payload=\"Hello from Gantsevich, СДП-ИИ-241\"; msg.headers={\"Content-Type\":\"text/plain; charset=utf-8\"}; return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 390,
+    "y": 70,
+    "wires": [
+      [
+        "n08c"
+      ]
+    ]
+  },
+  {
+    "id": "n08c",
+    "type": "http response",
+    "z": "z08",
+    "name": "Response",
+    "statusCode": "",
+    "headers": {},
+    "x": 620,
+    "y": 70,
+    "wires": []
+  },
+  {
+    "id": "n08d",
+    "type": "http in",
+    "z": "z08",
+    "name": "GET /api/info",
+    "url": "/api/info",
+    "method": "get",
+    "upload": false,
+    "swaggerDoc": "",
+    "x": 160,
+    "y": 140,
+    "wires": [
+      [
+        "n08e"
+      ]
+    ]
+  },
+  {
+    "id": "n08e",
+    "type": "function",
+    "z": "z08",
+    "name": "JSON info",
+    "func": "msg.payload={student:\"Gantsevich\",group:\"СДП-ИИ-241\"}; return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 390,
+    "y": 140,
+    "wires": [
+      [
+        "n08f"
+      ]
+    ]
+  },
+  {
+    "id": "n08f",
+    "type": "http response",
+    "z": "z08",
+    "name": "Response",
+    "statusCode": "",
+    "headers": {},
+    "x": 620,
+    "y": 140,
+    "wires": []
+  },
+  {
+    "id": "n08g",
+    "type": "http in",
+    "z": "z08",
+    "name": "GET /api/items/:id",
+    "url": "/api/items/:id",
+    "method": "get",
+    "upload": false,
+    "swaggerDoc": "",
+    "x": 180,
+    "y": 210,
+    "wires": [
+      [
+        "n08h"
+      ]
+    ]
+  },
+  {
+    "id": "n08h",
+    "type": "function",
+    "z": "z08",
+    "name": "200 / 400 / 404",
+    "func": "const raw=msg.req.params.id; const id=Number(raw); const items={1:{id:1,name:\"Keyboard\"},2:{id:2,name:\"Mouse\"},3:{id:3,name:\"Monitor\"}}; msg.headers={\"Content-Type\":\"application/json; charset=utf-8\"}; if(!Number.isInteger(id)||id<=0){msg.statusCode=400;msg.payload={error:\"invalid id\",student:\"Gantsevich\"};} else if(!items[id]){msg.statusCode=404;msg.payload={error:\"item not found\",id:id};} else {msg.statusCode=200;msg.payload=items[id];} return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 420,
+    "y": 210,
+    "wires": [
+      [
+        "n08i"
+      ]
+    ]
+  },
+  {
+    "id": "n08i",
+    "type": "http response",
+    "z": "z08",
+    "name": "Response",
+    "statusCode": "",
+    "headers": {},
+    "x": 650,
+    "y": 210,
+    "wires": []
+  }
+]

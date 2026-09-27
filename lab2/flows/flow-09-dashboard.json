@@ -1,0 +1,147 @@
+[
+  {
+    "id": "z09",
+    "type": "tab",
+    "label": "09 Dashboard",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n09a",
+    "type": "inject",
+    "z": "z09",
+    "name": "Sensor every 2 sec",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "2",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 180,
+    "y": 120,
+    "wires": [
+      [
+        "n09b"
+      ]
+    ]
+  },
+  {
+    "id": "n09b",
+    "type": "function",
+    "z": "z09",
+    "name": "Simulate temperature",
+    "func": "msg.payload=Number((20+Math.random()*10).toFixed(1)); msg.topic=\"Temperature / Gantsevich\"; return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 420,
+    "y": 120,
+    "wires": [
+      [
+        "n09c",
+        "n09d"
+      ]
+    ]
+  },
+  {
+    "id": "n09c",
+    "type": "ui_gauge",
+    "z": "z09",
+    "name": "Temperature gauge",
+    "group": "uig09",
+    "order": 1,
+    "width": 6,
+    "height": 4,
+    "gtype": "gage",
+    "title": "Current temperature",
+    "label": "°C",
+    "format": "{{value | number:1}}",
+    "min": 0,
+    "max": "50",
+    "colors": [
+      "#00b500",
+      "#e6e600",
+      "#ca3838"
+    ],
+    "seg1": "",
+    "seg2": "",
+    "diff": false,
+    "className": "",
+    "x": 700,
+    "y": 90,
+    "wires": []
+  },
+  {
+    "id": "n09d",
+    "type": "ui_chart",
+    "z": "z09",
+    "name": "Temperature chart",
+    "group": "uig09",
+    "order": 2,
+    "width": 12,
+    "height": 5,
+    "label": "Temperature history",
+    "chartType": "line",
+    "legend": "false",
+    "xformat": "HH:mm:ss",
+    "interpolate": "linear",
+    "nodata": "",
+    "dot": false,
+    "ymin": "",
+    "ymax": "",
+    "removeOlder": "1",
+    "removeOlderPoints": "",
+    "removeOlderUnit": "3600",
+    "cutout": 0,
+    "useOneColor": false,
+    "useUTC": false,
+    "colors": [
+      "#1f77b4",
+      "#aec7e8",
+      "#ff7f0e",
+      "#2ca02c",
+      "#98df8a",
+      "#d62728",
+      "#ff9896",
+      "#9467bd",
+      "#c5b0d5"
+    ],
+    "outputs": 1,
+    "useDifferentColor": false,
+    "className": "",
+    "x": 700,
+    "y": 150,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "uit09",
+    "type": "ui_tab",
+    "name": "Lab2 Dashboard",
+    "icon": "dashboard",
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "uig09",
+    "type": "ui_group",
+    "name": "Sensor",
+    "tab": "uit09",
+    "order": 1,
+    "disp": true,
+    "width": "12",
+    "collapse": false,
+    "className": ""
+  }
+]
