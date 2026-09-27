@@ -1,0 +1,134 @@
+[
+  {
+    "id": "z11",
+    "type": "tab",
+    "label": "11 Files",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n11a",
+    "type": "inject",
+    "z": "z11",
+    "name": "Write record",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 150,
+    "y": 90,
+    "wires": [
+      [
+        "n11b"
+      ]
+    ]
+  },
+  {
+    "id": "n11b",
+    "type": "function",
+    "z": "z11",
+    "name": "Build JSON line",
+    "func": "msg.payload=JSON.stringify({time:new Date().toISOString(),student:\"Gantsevich\",group:\"СДП-ИИ-241\",value:Math.floor(Math.random()*100)}); return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 370,
+    "y": 90,
+    "wires": [
+      [
+        "n11c"
+      ]
+    ]
+  },
+  {
+    "id": "n11c",
+    "type": "file",
+    "z": "z11",
+    "name": "Append file",
+    "filename": "/data/lab2-gantsevich.txt",
+    "filenameType": "str",
+    "appendNewline": true,
+    "createDir": false,
+    "overwriteFile": "false",
+    "encoding": "none",
+    "x": 620,
+    "y": 90,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "n11d",
+    "type": "inject",
+    "z": "z11",
+    "name": "Read file",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 140,
+    "y": 170,
+    "wires": [
+      [
+        "n11e"
+      ]
+    ]
+  },
+  {
+    "id": "n11e",
+    "type": "file in",
+    "z": "z11",
+    "name": "Read file",
+    "filename": "/data/lab2-gantsevich.txt",
+    "filenameType": "str",
+    "format": "utf8",
+    "chunk": false,
+    "sendError": false,
+    "encoding": "none",
+    "allProps": false,
+    "x": 360,
+    "y": 170,
+    "wires": [
+      [
+        "n11f"
+      ]
+    ]
+  },
+  {
+    "id": "n11f",
+    "type": "debug",
+    "z": "z11",
+    "name": "File contents",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 610,
+    "y": 170,
+    "wires": []
+  }
+]

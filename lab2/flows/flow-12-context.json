@@ -1,0 +1,72 @@
+[
+  {
+    "id": "z12",
+    "type": "tab",
+    "label": "12 Context",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n12a",
+    "type": "inject",
+    "z": "z12",
+    "name": "Increment",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 160,
+    "y": 120,
+    "wires": [
+      [
+        "n12b"
+      ]
+    ]
+  },
+  {
+    "id": "n12b",
+    "type": "function",
+    "z": "z12",
+    "name": "flow context counter",
+    "func": "let c=flow.get(\"gantsevich_counter\")||0; c++; flow.set(\"gantsevich_counter\",c); msg.payload={student:\"Gantsevich\",group:\"СДП-ИИ-241\",counter:c}; return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 420,
+    "y": 120,
+    "wires": [
+      [
+        "n12c"
+      ]
+    ]
+  },
+  {
+    "id": "n12c",
+    "type": "debug",
+    "z": "z12",
+    "name": "Counter value",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 700,
+    "y": 120,
+    "wires": []
+  }
+]

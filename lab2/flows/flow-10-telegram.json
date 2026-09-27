@@ -1,0 +1,161 @@
+[
+  {
+    "id": "z10",
+    "type": "tab",
+    "label": "10 Telegram bot",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n10a",
+    "type": "telegram command",
+    "z": "z10",
+    "name": "/start",
+    "command": "/start",
+    "bot": "bot10",
+    "strict": false,
+    "hasresponse": true,
+    "x": 130,
+    "y": 70,
+    "wires": [
+      [
+        "n10b"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "n10b",
+    "type": "function",
+    "z": "z10",
+    "name": "Start response",
+    "func": "msg.payload.content=\"Привет! Это бот Gantsevich. Команды: /start, /status\"; msg.payload.type=\"message\"; return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 70,
+    "wires": [
+      [
+        "n10g"
+      ]
+    ]
+  },
+  {
+    "id": "n10c",
+    "type": "telegram command",
+    "z": "z10",
+    "name": "/status",
+    "command": "/status",
+    "bot": "bot10",
+    "strict": false,
+    "hasresponse": true,
+    "x": 130,
+    "y": 130,
+    "wires": [
+      [
+        "n10d"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "n10d",
+    "type": "function",
+    "z": "z10",
+    "name": "Status response",
+    "func": "msg.payload.content=\"Node-RED bot работает. Gantsevich, СДП-ИИ-241\"; msg.payload.type=\"message\"; return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 130,
+    "wires": [
+      [
+        "n10g"
+      ]
+    ]
+  },
+  {
+    "id": "n10e",
+    "type": "telegram receiver",
+    "z": "z10",
+    "name": "Echo receiver",
+    "bot": "bot10",
+    "saveDataDir": "",
+    "filterCommands": false,
+    "x": 150,
+    "y": 200,
+    "wires": [
+      [
+        "n10f"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "n10f",
+    "type": "function",
+    "z": "z10",
+    "name": "Echo non-command",
+    "func": "if(msg.payload&&msg.payload.type===\"message\"){const t=String(msg.payload.content||\"\"); if(t.startsWith(\"/\")) return null; msg.payload.content=\"Echo: \"+t; return msg;} return null;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 380,
+    "y": 200,
+    "wires": [
+      [
+        "n10g"
+      ]
+    ]
+  },
+  {
+    "id": "n10g",
+    "type": "telegram sender",
+    "z": "z10",
+    "name": "Send reply",
+    "bot": "bot10",
+    "haserroroutput": false,
+    "outputs": 1,
+    "x": 640,
+    "y": 130,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "bot10",
+    "type": "telegram bot",
+    "botname": "tvl_lab2_Gantsevich_bot",
+    "usernames": "",
+    "chatids": "",
+    "baseapiurl": "",
+    "updatemode": "polling",
+    "pollinterval": "300",
+    "usesocks": false,
+    "sockshost": "",
+    "socksport": "6667",
+    "socksusername": "anonymous",
+    "sockspassword": "",
+    "bothost": "",
+    "botpath": "",
+    "localbotport": "8443",
+    "publicbotport": "8443",
+    "privatekey": "",
+    "certificate": "",
+    "useselfsignedcertificate": false,
+    "sslterminated": false,
+    "verboselogging": false
+  }
+]
