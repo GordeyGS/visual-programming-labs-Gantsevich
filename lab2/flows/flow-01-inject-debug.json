@@ -1,0 +1,56 @@
+[
+  {
+    "id": "z01",
+    "type": "tab",
+    "label": "01 Inject → Debug",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n01a",
+    "type": "inject",
+    "z": "z01",
+    "name": "Gantsevich every 5 sec",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "5",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "lab2/Gantsevich/СДП-ИИ-241/basic",
+    "payload": "Gantsevich",
+    "payloadType": "str",
+    "x": 220,
+    "y": 120,
+    "wires": [
+      [
+        "n01b"
+      ]
+    ]
+  },
+  {
+    "id": "n01b",
+    "type": "debug",
+    "z": "z01",
+    "name": "complete msg object",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 700,
+    "y": 120,
+    "wires": []
+  }
+]

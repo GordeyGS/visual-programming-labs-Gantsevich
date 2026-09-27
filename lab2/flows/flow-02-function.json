@@ -1,0 +1,72 @@
+[
+  {
+    "id": "z02",
+    "type": "tab",
+    "label": "02 Function",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n02a",
+    "type": "inject",
+    "z": "z02",
+    "name": "Input",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "25",
+    "payloadType": "num",
+    "x": 150,
+    "y": 120,
+    "wires": [
+      [
+        "n02b"
+      ]
+    ]
+  },
+  {
+    "id": "n02b",
+    "type": "function",
+    "z": "z02",
+    "name": "JS basics",
+    "func": "const values = [12,25,38,51,64];\nlet sum = 0;\nfor (let i=0;i<values.length;i++){ sum += values[i]; }\nconst average = sum/values.length;\nlet level;\nif (average >= 40) { level = \"high\"; } else { level = \"low\"; }\nconst result={student:\"Gantsevich\",group:\"СДП-ИИ-241\",values:values,average:average,level:level};\nmsg.payload=result;\nmsg.topic=\"lab2/Gantsevich/СДП-ИИ-241/function\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 410,
+    "y": 120,
+    "wires": [
+      [
+        "n02c"
+      ]
+    ]
+  },
+  {
+    "id": "n02c",
+    "type": "debug",
+    "z": "z02",
+    "name": "Result",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 700,
+    "y": 120,
+    "wires": []
+  }
+]

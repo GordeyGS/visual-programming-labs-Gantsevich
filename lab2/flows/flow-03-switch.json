@@ -1,0 +1,122 @@
+[
+  {
+    "id": "z03",
+    "type": "tab",
+    "label": "03 Switch",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n03a",
+    "type": "inject",
+    "z": "z03",
+    "name": "Generate score",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 160,
+    "y": 120,
+    "wires": [
+      [
+        "n03b"
+      ]
+    ]
+  },
+  {
+    "id": "n03b",
+    "type": "function",
+    "z": "z03",
+    "name": "Random score",
+    "func": "msg.payload={student:\"Gantsevich\",group:\"СДП-ИИ-241\",score:Math.floor(Math.random()*101)}; return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 120,
+    "wires": [
+      [
+        "n03c"
+      ]
+    ]
+  },
+  {
+    "id": "n03c",
+    "type": "switch",
+    "z": "z03",
+    "name": "score >= 50?",
+    "property": "payload.score",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "gte",
+        "v": "50",
+        "vt": "num"
+      },
+      {
+        "t": "lt",
+        "v": "50",
+        "vt": "num"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 2,
+    "x": 560,
+    "y": 120,
+    "wires": [
+      [
+        "n03d"
+      ],
+      [
+        "n03e"
+      ]
+    ]
+  },
+  {
+    "id": "n03d",
+    "type": "debug",
+    "z": "z03",
+    "name": "PASS",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 700,
+    "y": 120,
+    "wires": []
+  },
+  {
+    "id": "n03e",
+    "type": "debug",
+    "z": "z03",
+    "name": "FAIL",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 700,
+    "y": 180,
+    "wires": []
+  }
+]

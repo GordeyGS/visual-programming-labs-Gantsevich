@@ -1,0 +1,93 @@
+[
+  {
+    "id": "z04",
+    "type": "tab",
+    "label": "04 Change",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n04a",
+    "type": "inject",
+    "z": "z04",
+    "name": "Input",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "original",
+    "payloadType": "str",
+    "x": 150,
+    "y": 120,
+    "wires": [
+      [
+        "n04b"
+      ]
+    ]
+  },
+  {
+    "id": "n04b",
+    "type": "change",
+    "z": "z04",
+    "name": "Set topic/timestamp/payload",
+    "rules": [
+      {
+        "t": "set",
+        "p": "topic",
+        "pt": "msg",
+        "to": "lab2/Gantsevich/СДП-ИИ-241/change",
+        "tot": "str"
+      },
+      {
+        "t": "set",
+        "p": "timestamp",
+        "pt": "msg",
+        "to": "",
+        "tot": "date"
+      },
+      {
+        "t": "set",
+        "p": "payload",
+        "pt": "msg",
+        "to": "Changed by Gantsevich",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 410,
+    "y": 120,
+    "wires": [
+      [
+        "n04c"
+      ]
+    ]
+  },
+  {
+    "id": "n04c",
+    "type": "debug",
+    "z": "z04",
+    "name": "complete msg object",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 700,
+    "y": 120,
+    "wires": []
+  }
+]
