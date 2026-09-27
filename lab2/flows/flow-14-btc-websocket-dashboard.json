@@ -1,0 +1,158 @@
+[
+  {
+    "id": "z14",
+    "type": "tab",
+    "label": "Achievement 14 — BTC WebSocket → Dashboard",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "n14a",
+    "type": "websocket in",
+    "z": "z14",
+    "name": "BTCUSDT mark price",
+    "server": "",
+    "client": "ws14",
+    "x": 200,
+    "y": 120,
+    "wires": [
+      [
+        "n14b"
+      ]
+    ]
+  },
+  {
+    "id": "n14b",
+    "type": "function",
+    "z": "z14",
+    "name": "Parse BTC price",
+    "func": "let d=msg.payload; if(typeof d===\"string\"){try{d=JSON.parse(d);}catch(e){return null;}} if(d.data)d=d.data; const p=Number(d.p); if(!Number.isFinite(p))return null; msg.payload=p; msg.topic=\"BTCUSDT\"; msg.eventTime=d.E||Date.now(); return msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 430,
+    "y": 120,
+    "wires": [
+      [
+        "n14c",
+        "n14d",
+        "n14e"
+      ]
+    ]
+  },
+  {
+    "id": "n14c",
+    "type": "ui_chart",
+    "z": "z14",
+    "name": "BTC chart",
+    "group": "uig14",
+    "order": 1,
+    "width": 12,
+    "height": 6,
+    "label": "BTCUSDT realtime price",
+    "chartType": "line",
+    "legend": "false",
+    "xformat": "HH:mm:ss",
+    "interpolate": "linear",
+    "nodata": "Waiting for WebSocket data...",
+    "dot": false,
+    "ymin": "",
+    "ymax": "",
+    "removeOlder": "5",
+    "removeOlderPoints": "",
+    "removeOlderUnit": "60",
+    "cutout": 0,
+    "useOneColor": true,
+    "useUTC": false,
+    "colors": [
+      "#1f77b4",
+      "#aec7e8",
+      "#ff7f0e",
+      "#2ca02c",
+      "#98df8a",
+      "#d62728",
+      "#ff9896",
+      "#9467bd",
+      "#c5b0d5"
+    ],
+    "outputs": 1,
+    "useDifferentColor": false,
+    "className": "",
+    "x": 690,
+    "y": 80,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "n14d",
+    "type": "ui_text",
+    "z": "z14",
+    "group": "uig14",
+    "order": 2,
+    "width": 6,
+    "height": 2,
+    "name": "Current BTC price",
+    "label": "Current BTCUSDT",
+    "format": "{{msg.payload | number:2}} USDT",
+    "layout": "row-spread",
+    "className": "",
+    "style": false,
+    "font": "",
+    "fontSize": 16,
+    "color": "",
+    "x": 700,
+    "y": 140,
+    "wires": []
+  },
+  {
+    "id": "n14e",
+    "type": "debug",
+    "z": "z14",
+    "name": "BTC price debug",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 200,
+    "wires": []
+  },
+  {
+    "id": "ws14",
+    "type": "websocket-client",
+    "path": "wss://fstream.binance.com/market/ws/btcusdt@markPrice@1s",
+    "tls": "",
+    "wholemsg": "false",
+    "hb": "0",
+    "subprotocol": "",
+    "headers": []
+  },
+  {
+    "id": "uit14",
+    "type": "ui_tab",
+    "name": "BTC Realtime",
+    "icon": "timeline",
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "uig14",
+    "type": "ui_group",
+    "name": "Achievement 14",
+    "tab": "uit14",
+    "order": 1,
+    "disp": true,
+    "width": "12",
+    "collapse": false,
+    "className": ""
+  }
+]
