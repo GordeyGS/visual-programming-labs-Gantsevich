@@ -65,9 +65,9 @@ Workflow `flow-11-notes-api-redis.json` реализует:
 |---|---|---|
 | POST | `/webhook/lab4/gantsevich/notes` | создать заметку |
 | GET | `/webhook/lab4/gantsevich/notes` | получить список |
-| GET | `/webhook/lab4/gantsevich/notes/:id` | получить одну заметку |
-| PUT | `/webhook/lab4/gantsevich/notes/:id` | изменить заметку |
-| DELETE | `/webhook/lab4/gantsevich/notes/:id` | удалить заметку |
+| GET | `/webhook/lab4/gantsevich/notes/item?id=<id>` | получить одну заметку |
+| PUT | `/webhook/lab4/gantsevich/notes/item?id=<id>` | изменить заметку |
+| DELETE | `/webhook/lab4/gantsevich/notes/item?id=<id>` | удалить заметку |
 
 Ключ Redis имеет формат `notes:gantsevich:<id>`, значение — JSON-строка. После импорта нужно выбрать credentials `Redis local` в Redis-нодах и активировать workflow.
 
@@ -91,7 +91,7 @@ curl -X POST http://localhost:5678/webhook/lab4/gantsevich/notes \
 
 ## Проверка
 
-Все 9 JSON-файлов успешно импортированы в n8n 2.43.7. Через CLI n8n успешно выполнены Flow 01–05, Redis Set/Get и Redis Delete/проверка. HTTP Request получил корректный JSON от публичного API. Redis-тест вернул записанное значение, а после удаления — `exists = false`.
+Все 9 JSON-файлов успешно импортированы в n8n 2.43.7. Через CLI n8n успешно выполнены Flow 01–05, Redis Set/Get и Redis Delete/проверка. HTTP Request получил корректный JSON от публичного API. Redis-тест вернул записанное значение, а после удаления — `exists = false`. REST API дополнительно проверен полным циклом: create, list, update, read и delete; все ответы вернули `ok = true`.
 
 ## Скриншоты для защиты
 
