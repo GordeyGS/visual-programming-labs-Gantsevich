@@ -1,0 +1,40 @@
+{
+  "name": "Lab4 Gantsevich - JavaScript Basics",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e28f20f1-a465-478c-8fbd-4cd720f5ba63",
+      "name": "When clicking Execute workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-460, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const student = { surname: 'Gantsevich', group: 'СДП-ИИ-241' };\nconst values = [12, 25, 38, 41];\nlet total = 0;\nfor (let i = 0; i < values.length; i++) {\n  total += values[i];\n}\nconst average = total / values.length;\nlet result;\nif (average >= 25) {\n  result = 'passed';\n} else {\n  result = 'retry';\n}\nreturn [{ json: { payload: { student, values, total, average, result } } }];"
+      },
+      "id": "570b31cf-128a-44d4-b671-1c7f06ef14d4",
+      "name": "JavaScript basics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-220, 0]
+    },
+    {
+      "parameters": {},
+      "id": "91d27e64-9ab5-480f-93f5-f01e8e1dc0dd",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [20, 0]
+    }
+  ],
+  "connections": {
+    "When clicking Execute workflow": {"main": [[{"node": "JavaScript basics", "type": "main", "index": 0}]]},
+    "JavaScript basics": {"main": [[{"node": "No Operation, do nothing", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "0b894132-d9d9-4300-b064-0c1bbe6a809a",
+  "meta": {"templateCredsSetupCompleted": true},
+  "tags": []
+}

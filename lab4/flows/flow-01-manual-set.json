@@ -1,0 +1,48 @@
+{
+  "name": "Lab4 Gantsevich - Manual Set Code",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "0fc46f89-80ae-4cbd-bf18-01a2766a591d",
+      "name": "When clicking Execute workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-460, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id": "payload", "name": "payload", "value": "Gantsevich", "type": "string"},
+            {"id": "topic", "name": "topic", "value": "lab4/Gantsevich/basic", "type": "string"}
+          ]
+        },
+        "options": {}
+      },
+      "id": "c68b010c-ffdc-4f8a-a78a-d382b10638ee",
+      "name": "Set student data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-220, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('Lab 4 input:', $json);\nreturn [{ json: { ...$json, debug: 'Data received by Code node' } }];"
+      },
+      "id": "a83795b9-c057-4f22-839c-8bdb89d2c163",
+      "name": "Debug data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [20, 0]
+    }
+  ],
+  "connections": {
+    "When clicking Execute workflow": {"main": [[{"node": "Set student data", "type": "main", "index": 0}]]},
+    "Set student data": {"main": [[{"node": "Debug data", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "76324702-ee99-426f-80fb-9d924381c132",
+  "meta": {"templateCredsSetupCompleted": true},
+  "tags": []
+}

@@ -1,0 +1,66 @@
+{
+  "name": "Lab4 Gantsevich - IF Branch",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e70731d0-7e8d-4857-a72a-e0add98958e7",
+      "name": "When clicking Execute workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-520, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const values = [10, 20, 30, 40];\nlet total = 0;\nfor (const value of values) {\n  total += value;\n}\nconst student = { surname: 'Gantsevich', group: 'СДП-ИИ-241' };\nconst payload = total >= 100 ? 'approved' : 'rejected';\nreturn [{ json: { payload, total, student } }];"
+      },
+      "id": "44256a76-9f43-4fa6-9c77-1d86294e28ed",
+      "name": "Calculate payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-300, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2},
+          "conditions": [
+            {"id": "payload-check", "leftValue": "={{ $json.payload }}", "rightValue": "approved", "operator": {"type": "string", "operation": "equals"}}
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "8aa150cb-027e-420f-aa6b-716086bd392f",
+      "name": "Payload approved?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [-60, 0]
+    },
+    {
+      "parameters": {},
+      "id": "af03e687-3f30-4fd2-be14-dc133a62bb6b",
+      "name": "True branch",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [200, -100]
+    },
+    {
+      "parameters": {},
+      "id": "bdf580b9-c999-429f-8976-f9ae02d8aadd",
+      "name": "False branch",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [200, 100]
+    }
+  ],
+  "connections": {
+    "When clicking Execute workflow": {"main": [[{"node": "Calculate payload", "type": "main", "index": 0}]]},
+    "Calculate payload": {"main": [[{"node": "Payload approved?", "type": "main", "index": 0}]]},
+    "Payload approved?": {"main": [[{"node": "True branch", "type": "main", "index": 0}], [{"node": "False branch", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "9c10e600-b6b2-4839-824b-b95b76e4ae3c",
+  "meta": {"templateCredsSetupCompleted": true},
+  "tags": []
+}
