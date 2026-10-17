@@ -1,0 +1,49 @@
+{
+  "name": "Lab4 Achievement 5.2 - Notes API Redis",
+  "nodes": [
+    {"parameters":{"httpMethod":"POST","path":"lab4/gantsevich/notes","responseMode":"responseNode","options":{}},"id":"47ba77b4-ff11-49bd-a94d-905033ea6664","name":"POST note","type":"n8n-nodes-base.webhook","typeVersion":2.1,"position":[-720,-360],"webhookId":"post-gantsevich-note"},
+    {"parameters":{"jsCode":"const body = $json.body ?? {};\nif (!body.title) throw new Error('title is required');\nconst id = body.id ?? Date.now().toString();\nconst note = { id, title: body.title, text: body.text ?? '', author: 'Gantsevich', createdAt: new Date().toISOString() };\nreturn [{ json: { key: `notes:gantsevich:${id}`, note, serialized: JSON.stringify(note) } }];"},"id":"06ed397a-4dc7-4115-a3b9-a3675ef248e5","name":"Build new note","type":"n8n-nodes-base.code","typeVersion":2,"position":[-480,-360]},
+    {"parameters":{"operation":"set","key":"={{ $json.key }}","value":"={{ $json.serialized }}","keyType":"string"},"id":"5a8d4cc3-7d44-42d2-b45e-97a5ab337a92","name":"Create note in Redis","type":"n8n-nodes-base.redis","typeVersion":1,"position":[-240,-360],"credentials":{"redis":{"name":"Redis local"}}},
+    {"parameters":{"respondWith":"json","responseBody":"={{ { ok: true, operation: 'created', note: $('Build new note').item.json.note } }}","options":{"responseCode":201}},"id":"4bc44c30-2f1f-4f5e-9210-a90ad1f4a05f","name":"Created response","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[20,-360]},
+
+    {"parameters":{"path":"lab4/gantsevich/notes","responseMode":"responseNode","options":{}},"id":"b2bba6f7-378b-46d0-a851-8163c3eb0e1b","name":"GET notes","type":"n8n-nodes-base.webhook","typeVersion":2.1,"position":[-720,-140],"webhookId":"get-gantsevich-notes"},
+    {"parameters":{"operation":"keys","keyPattern":"notes:gantsevich:*","getValues":true},"id":"b542f276-485b-4c7c-bb1e-5be34e841813","name":"List notes from Redis","type":"n8n-nodes-base.redis","typeVersion":1,"position":[-480,-140],"credentials":{"redis":{"name":"Redis local"}}},
+    {"parameters":{"jsCode":"const notes = Object.values($json).map(value => {\n  try { return typeof value === 'string' ? JSON.parse(value) : value; } catch { return value; }\n});\nreturn [{ json: { ok: true, count: notes.length, notes } }];"},"id":"7d997afc-8059-4667-a088-c9a8bcbd6b55","name":"Format notes list","type":"n8n-nodes-base.code","typeVersion":2,"position":[-240,-140]},
+    {"parameters":{"respondWith":"firstIncomingItem","options":{}},"id":"202a882f-c931-4a16-868b-06c13a63bca0","name":"List response","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[20,-140]},
+
+    {"parameters":{"path":"lab4/gantsevich/notes/:id","responseMode":"responseNode","options":{}},"id":"08908413-af46-4464-b18b-393a472c5f15","name":"GET note by id","type":"n8n-nodes-base.webhook","typeVersion":2.1,"position":[-720,80],"webhookId":"get-gantsevich-note"},
+    {"parameters":{"operation":"get","propertyName":"note","key":"=notes:gantsevich:{{ $json.params.id }}","keyType":"string","options":{}},"id":"819ebae6-d086-4b04-8b1a-8a509ae5451a","name":"Get note from Redis","type":"n8n-nodes-base.redis","typeVersion":1,"position":[-480,80],"credentials":{"redis":{"name":"Redis local"}}},
+    {"parameters":{"jsCode":"if (!$json.note) return [{ json: { ok: false, error: 'Note not found' } }];\nreturn [{ json: { ok: true, note: JSON.parse($json.note) } }];"},"id":"8df0c01b-ee15-456e-b40b-4ae6af91cc4d","name":"Format one note","type":"n8n-nodes-base.code","typeVersion":2,"position":[-240,80]},
+    {"parameters":{"respondWith":"firstIncomingItem","options":{}},"id":"bd0c0ab2-56e1-4940-ad3a-d7617606093a","name":"Get response","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[20,80]},
+
+    {"parameters":{"httpMethod":"PUT","path":"lab4/gantsevich/notes/:id","responseMode":"responseNode","options":{}},"id":"15aaec16-f875-40ba-852a-b94f96d6653d","name":"PUT note","type":"n8n-nodes-base.webhook","typeVersion":2.1,"position":[-720,300],"webhookId":"put-gantsevich-note"},
+    {"parameters":{"jsCode":"const body = $json.body ?? {};\nif (!body.title) throw new Error('title is required');\nconst id = $json.params.id;\nconst note = { id, title: body.title, text: body.text ?? '', author: 'Gantsevich', updatedAt: new Date().toISOString() };\nreturn [{ json: { key: `notes:gantsevich:${id}`, note, serialized: JSON.stringify(note) } }];"},"id":"994183ef-cddc-4f72-a179-d28b0f36c859","name":"Build updated note","type":"n8n-nodes-base.code","typeVersion":2,"position":[-480,300]},
+    {"parameters":{"operation":"set","key":"={{ $json.key }}","value":"={{ $json.serialized }}","keyType":"string"},"id":"2d00e1d4-d64a-4e32-be33-6904582392bd","name":"Update note in Redis","type":"n8n-nodes-base.redis","typeVersion":1,"position":[-240,300],"credentials":{"redis":{"name":"Redis local"}}},
+    {"parameters":{"respondWith":"json","responseBody":"={{ { ok: true, operation: 'updated', note: $('Build updated note').item.json.note } }}","options":{}},"id":"fc0f6321-f63f-4c7a-9fda-347a19f507c2","name":"Updated response","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[20,300]},
+
+    {"parameters":{"httpMethod":"DELETE","path":"lab4/gantsevich/notes/:id","responseMode":"responseNode","options":{}},"id":"29066ca5-5b23-4054-b800-a011e1137d77","name":"DELETE note","type":"n8n-nodes-base.webhook","typeVersion":2.1,"position":[-720,520],"webhookId":"delete-gantsevich-note"},
+    {"parameters":{"operation":"delete","key":"=notes:gantsevich:{{ $json.params.id }}"},"id":"c22415fb-6083-42eb-b5df-b8a2a714e047","name":"Delete note from Redis","type":"n8n-nodes-base.redis","typeVersion":1,"position":[-480,520],"credentials":{"redis":{"name":"Redis local"}}},
+    {"parameters":{"respondWith":"json","responseBody":"={{ { ok: true, operation: 'deleted' } }}","options":{}},"id":"085cf06f-e81a-420f-80fc-c5472d70a045","name":"Deleted response","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[-240,520]}
+  ],
+  "connections": {
+    "POST note":{"main":[[{"node":"Build new note","type":"main","index":0}]]},
+    "Build new note":{"main":[[{"node":"Create note in Redis","type":"main","index":0}]]},
+    "Create note in Redis":{"main":[[{"node":"Created response","type":"main","index":0}]]},
+    "GET notes":{"main":[[{"node":"List notes from Redis","type":"main","index":0}]]},
+    "List notes from Redis":{"main":[[{"node":"Format notes list","type":"main","index":0}]]},
+    "Format notes list":{"main":[[{"node":"List response","type":"main","index":0}]]},
+    "GET note by id":{"main":[[{"node":"Get note from Redis","type":"main","index":0}]]},
+    "Get note from Redis":{"main":[[{"node":"Format one note","type":"main","index":0}]]},
+    "Format one note":{"main":[[{"node":"Get response","type":"main","index":0}]]},
+    "PUT note":{"main":[[{"node":"Build updated note","type":"main","index":0}]]},
+    "Build updated note":{"main":[[{"node":"Update note in Redis","type":"main","index":0}]]},
+    "Update note in Redis":{"main":[[{"node":"Updated response","type":"main","index":0}]]},
+    "DELETE note":{"main":[[{"node":"Delete note from Redis","type":"main","index":0}]]},
+    "Delete note from Redis":{"main":[[{"node":"Deleted response","type":"main","index":0}]]}
+  },
+  "active": false,
+  "settings":{"executionOrder":"v1","timezone":"Europe/Minsk"},
+  "versionId":"a3c2a744-6081-4e37-84ee-f0f53c99cb52",
+  "meta":{"templateCredsSetupCompleted":true},
+  "tags":[]
+}
