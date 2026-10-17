@@ -13,6 +13,7 @@ services:
     volumes:
       - ./n8n-data:/home/node/.n8n
       - ./data:/data
+      - ./flows:/workflows:ro
     depends_on:
       redis:
         condition: service_healthy

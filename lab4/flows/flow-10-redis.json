@@ -1,4 +1,5 @@
 {
+  "id": "rrkEp2A3yjUjIBlq",
   "name": "Lab4 Gantsevich - Redis Delete Exists",
   "nodes": [
     {
@@ -16,7 +17,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [-280, 0],
-      "credentials": {"redis": {"name": "Redis local"}}
+      "credentials": {"redis": {"id": "redis-local-lab4", "name": "Redis local"}}
     },
     {
       "parameters": {"operation": "keys", "keyPattern": "gantsevich", "getValues": false},
@@ -25,11 +26,11 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [-40, 0],
-      "credentials": {"redis": {"name": "Redis local"}}
+      "credentials": {"redis": {"id": "redis-local-lab4", "name": "Redis local"}}
     },
     {
       "parameters": {
-        "jsCode": "const keys = Object.keys($json);\nreturn [{ json: { key: 'gantsevich', exists: keys.includes('gantsevich'), verification: keys.includes('gantsevich') ? 'Key still exists' : 'Key successfully deleted' } }];"
+        "jsCode": "const keys = Array.isArray($json.keys) ? $json.keys : Object.keys($json);\nconst exists = keys.includes('gantsevich');\nreturn [{ json: { key: 'gantsevich', exists, verification: exists ? 'Key still exists' : 'Key successfully deleted' } }];"
       },
       "id": "85097d29-5b3f-4efa-a46f-3d7caabf0ca9",
       "name": "Confirm key is absent",

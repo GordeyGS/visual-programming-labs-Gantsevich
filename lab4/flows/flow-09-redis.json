@@ -1,4 +1,5 @@
 {
+  "id": "4VKI6tc5AEF48zsi",
   "name": "Lab4 Gantsevich - Redis Set Get",
   "nodes": [
     {
@@ -16,7 +17,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [-240, 0],
-      "credentials": {"redis": {"name": "Redis local"}}
+      "credentials": {"redis": {"id": "redis-local-lab4", "name": "Redis local"}}
     },
     {
       "parameters": {"operation": "get", "propertyName": "redisValue", "key": "gantsevich", "keyType": "string", "options": {}},
@@ -25,7 +26,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [0, 0],
-      "credentials": {"redis": {"name": "Redis local"}}
+      "credentials": {"redis": {"id": "redis-local-lab4", "name": "Redis local"}}
     }
   ],
   "connections": {
