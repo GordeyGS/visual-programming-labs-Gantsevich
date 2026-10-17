@@ -1,0 +1,49 @@
+{
+  "name": "Lab4 Gantsevich - Edit Fields",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "71d9ce98-0cc4-4e5e-adbb-e4e280f2a94d",
+      "name": "When clicking Execute workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-460, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id": "topic", "name": "topic", "value": "lab4/Gantsevich/changed", "type": "string"},
+            {"id": "timestamp", "name": "timestamp", "value": "={{ $now.toISO() }}", "type": "string"},
+            {"id": "payload", "name": "payload", "value": "Fields changed for Gantsevich", "type": "string"}
+          ]
+        },
+        "options": {}
+      },
+      "id": "e6718803-e2e4-4597-85f2-3b5b4bd72af6",
+      "name": "Set message fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-220, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const completeMessage = { ...$json, student: 'Gantsevich', group: 'СДП-ИИ-241' };\nconsole.log('Complete message:', completeMessage);\nreturn [{ json: completeMessage }];"
+      },
+      "id": "dc031e82-766a-4f20-aa3e-9338020746d7",
+      "name": "Show complete message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [20, 0]
+    }
+  ],
+  "connections": {
+    "When clicking Execute workflow": {"main": [[{"node": "Set message fields", "type": "main", "index": 0}]]},
+    "Set message fields": {"main": [[{"node": "Show complete message", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "0f5294ad-cc08-4f9b-b0a0-78c65507700f",
+  "meta": {"templateCredsSetupCompleted": true},
+  "tags": []
+}

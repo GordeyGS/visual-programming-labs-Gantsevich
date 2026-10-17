@@ -1,0 +1,33 @@
+{
+  "name": "Lab4 Gantsevich - Schedule",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {"interval": [{"field": "minutes", "minutesInterval": 5}]}
+      },
+      "id": "a766aed5-a754-44e9-89c8-dbf40d059be7",
+      "name": "Every five minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-240, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { currentTime: new Date().toISOString(), student: 'Gantsevich', topic: 'lab4/Gantsevich/schedule' } }];"
+      },
+      "id": "6fc1c8dc-9804-4b3c-bb39-e57acdd58de0",
+      "name": "Return current time",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [0, 0]
+    }
+  ],
+  "connections": {
+    "Every five minutes": {"main": [[{"node": "Return current time", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1", "timezone": "Europe/Minsk"},
+  "versionId": "ed183306-e2e3-4ddc-8386-563a6cf570a7",
+  "meta": {"templateCredsSetupCompleted": true},
+  "tags": []
+}

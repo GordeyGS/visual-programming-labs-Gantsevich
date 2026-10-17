@@ -1,0 +1,43 @@
+{
+  "name": "Lab4 Gantsevich - HTTP Request",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "ea0e0b67-8bfb-49ab-b2b5-e7eddd3e7023",
+      "name": "When clicking Execute workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-460, 0]
+    },
+    {
+      "parameters": {
+        "url": "https://catfact.ninja/fact",
+        "options": {"response": {"response": {"responseFormat": "json"}}}
+      },
+      "id": "3db1a0fe-d83e-4c46-bbf7-850463dd9dba",
+      "name": "Get public cat fact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-220, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { payload: $json.fact, length: $json.length, requestedBy: 'Gantsevich' } }];"
+      },
+      "id": "8d597b10-4092-4b16-8113-898961f9596f",
+      "name": "Format API response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [20, 0]
+    }
+  ],
+  "connections": {
+    "When clicking Execute workflow": {"main": [[{"node": "Get public cat fact", "type": "main", "index": 0}]]},
+    "Get public cat fact": {"main": [[{"node": "Format API response", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "b5ec3216-9057-4f89-b373-641bb0547178",
+  "meta": {"templateCredsSetupCompleted": true},
+  "tags": []
+}
