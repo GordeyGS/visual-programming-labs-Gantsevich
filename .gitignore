@@ -1,3 +1,8 @@
 .DS_Store
 *.tmp
 *.bak
+# Local n8n and Redis state
+lab4/n8n-data/
+lab4/redis-data/
+lab4/data/*.json
+
