@@ -1,0 +1,51 @@
+{
+  "name": "Lab4 Gantsevich - Redis Delete Exists",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "416a63ad-bf35-43a2-b9a7-20be1a72c119",
+      "name": "When clicking Execute workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-500, 0]
+    },
+    {
+      "parameters": {"operation": "delete", "key": "gantsevich"},
+      "id": "0425dde6-7ac2-4ae8-9861-9ca2c8773912",
+      "name": "Redis Delete gantsevich",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [-280, 0],
+      "credentials": {"redis": {"name": "Redis local"}}
+    },
+    {
+      "parameters": {"operation": "keys", "keyPattern": "gantsevich", "getValues": false},
+      "id": "0a17e7ad-59ee-4910-902a-a486ac0b328b",
+      "name": "Redis Exists check",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [-40, 0],
+      "credentials": {"redis": {"name": "Redis local"}}
+    },
+    {
+      "parameters": {
+        "jsCode": "const keys = Object.keys($json);\nreturn [{ json: { key: 'gantsevich', exists: keys.includes('gantsevich'), verification: keys.includes('gantsevich') ? 'Key still exists' : 'Key successfully deleted' } }];"
+      },
+      "id": "85097d29-5b3f-4efa-a46f-3d7caabf0ca9",
+      "name": "Confirm key is absent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [200, 0]
+    }
+  ],
+  "connections": {
+    "When clicking Execute workflow": {"main": [[{"node": "Redis Delete gantsevich", "type": "main", "index": 0}]]},
+    "Redis Delete gantsevich": {"main": [[{"node": "Redis Exists check", "type": "main", "index": 0}]]},
+    "Redis Exists check": {"main": [[{"node": "Confirm key is absent", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "a14980dd-c8b6-435c-88b3-2558dd907340",
+  "meta": {"templateCredsSetupCompleted": true},
+  "tags": []
+}

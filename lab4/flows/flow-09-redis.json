@@ -1,0 +1,40 @@
+{
+  "name": "Lab4 Gantsevich - Redis Set Get",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "4d817698-b615-4eb2-913b-a63524f827cf",
+      "name": "When clicking Execute workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-480, 0]
+    },
+    {
+      "parameters": {"operation": "set", "key": "gantsevich", "value": "Lab 4 Redis value by Gantsevich", "keyType": "string"},
+      "id": "6c655e2e-9e7a-428a-a3b1-43a2f4e1856f",
+      "name": "Redis Set gantsevich",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [-240, 0],
+      "credentials": {"redis": {"name": "Redis local"}}
+    },
+    {
+      "parameters": {"operation": "get", "propertyName": "redisValue", "key": "gantsevich", "keyType": "string", "options": {}},
+      "id": "58bf8605-177a-48cb-8a2a-1b0282b56930",
+      "name": "Redis Get gantsevich",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "credentials": {"redis": {"name": "Redis local"}}
+    }
+  ],
+  "connections": {
+    "When clicking Execute workflow": {"main": [[{"node": "Redis Set gantsevich", "type": "main", "index": 0}]]},
+    "Redis Set gantsevich": {"main": [[{"node": "Redis Get gantsevich", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "a61cc955-0e78-4b46-a677-c9f4f64f462e",
+  "meta": {"templateCredsSetupCompleted": true},
+  "tags": []
+}
