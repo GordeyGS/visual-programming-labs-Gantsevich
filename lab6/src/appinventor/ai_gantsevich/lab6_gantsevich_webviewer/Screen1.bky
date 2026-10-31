@@ -1,0 +1,112 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="component_event" id="greeting-click" x="35" y="35">
+    <mutation component_type="Button" instance_name="GreetingButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">GreetingButton</field>
+    <statement name="DO">
+      <block type="controls_if" id="name-empty-check">
+        <mutation else="1"></mutation>
+        <value name="IF0">
+          <block type="logic_compare" id="compare-empty-name">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="component_set_get" id="get-name-text">
+                <mutation component_type="TextBox" set_or_get="get" property_name="Text" is_generic="false" instance_name="NameTextBox"></mutation>
+                <field name="COMPONENT_SELECTOR">NameTextBox</field>
+                <field name="PROP">Text</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="text" id="empty-text">
+                <field name="TEXT"></field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="component_set_get" id="set-empty-warning">
+            <mutation component_type="Label" set_or_get="set" property_name="Text" is_generic="false" instance_name="ResultLabel"></mutation>
+            <field name="COMPONENT_SELECTOR">ResultLabel</field>
+            <field name="PROP">Text</field>
+            <value name="VALUE">
+              <block type="text" id="warning-text">
+                <field name="TEXT">Введите имя!</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="component_set_get" id="set-greeting-result">
+            <mutation component_type="Label" set_or_get="set" property_name="Text" is_generic="false" instance_name="ResultLabel"></mutation>
+            <field name="COMPONENT_SELECTOR">ResultLabel</field>
+            <field name="PROP">Text</field>
+            <value name="VALUE">
+              <block type="text_join" id="join-greeting">
+                <mutation items="3"></mutation>
+                <value name="ADD0">
+                  <block type="text" id="hello-prefix"><field name="TEXT">Привет, </field></block>
+                </value>
+                <value name="ADD1">
+                  <block type="component_set_get" id="get-name-for-greeting">
+                    <mutation component_type="TextBox" set_or_get="get" property_name="Text" is_generic="false" instance_name="NameTextBox"></mutation>
+                    <field name="COMPONENT_SELECTOR">NameTextBox</field>
+                    <field name="PROP">Text</field>
+                  </block>
+                </value>
+                <value name="ADD2">
+                  <block type="text" id="hello-suffix"><field name="TEXT">!</field></block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id="open-site-click" x="35" y="410">
+    <mutation component_type="Button" instance_name="OpenUniversityButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">OpenUniversityButton</field>
+    <statement name="DO">
+      <block type="component_set_get" id="hide-main-layout">
+        <mutation component_type="VerticalArrangement" set_or_get="set" property_name="Visible" is_generic="false" instance_name="MainLayout"></mutation>
+        <field name="COMPONENT_SELECTOR">MainLayout</field>
+        <field name="PROP">Visible</field>
+        <value name="VALUE"><block type="logic_boolean" id="main-false"><field name="BOOL">FALSE</field></block></value>
+        <next>
+          <block type="component_set_get" id="show-web-layout">
+            <mutation component_type="VerticalArrangement" set_or_get="set" property_name="Visible" is_generic="false" instance_name="WebLayout"></mutation>
+            <field name="COMPONENT_SELECTOR">WebLayout</field>
+            <field name="PROP">Visible</field>
+            <value name="VALUE"><block type="logic_boolean" id="web-true"><field name="BOOL">TRUE</field></block></value>
+            <next>
+              <block type="component_method" id="open-grsu-url">
+                <mutation component_type="WebViewer" method_name="GoToUrl" is_generic="false" instance_name="UniversityWebViewer"></mutation>
+                <field name="COMPONENT_SELECTOR">UniversityWebViewer</field>
+                <value name="ARG0"><block type="text" id="grsu-url"><field name="TEXT">https://www.grsu.by</field></block></value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id="back-click" x="35" y="670">
+    <mutation component_type="Button" instance_name="BackButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">BackButton</field>
+    <statement name="DO">
+      <block type="component_set_get" id="hide-web-layout">
+        <mutation component_type="VerticalArrangement" set_or_get="set" property_name="Visible" is_generic="false" instance_name="WebLayout"></mutation>
+        <field name="COMPONENT_SELECTOR">WebLayout</field>
+        <field name="PROP">Visible</field>
+        <value name="VALUE"><block type="logic_boolean" id="web-false"><field name="BOOL">FALSE</field></block></value>
+        <next>
+          <block type="component_set_get" id="show-main-layout">
+            <mutation component_type="VerticalArrangement" set_or_get="set" property_name="Visible" is_generic="false" instance_name="MainLayout"></mutation>
+            <field name="COMPONENT_SELECTOR">MainLayout</field>
+            <field name="PROP">Visible</field>
+            <value name="VALUE"><block type="logic_boolean" id="main-true"><field name="BOOL">TRUE</field></block></value>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>
