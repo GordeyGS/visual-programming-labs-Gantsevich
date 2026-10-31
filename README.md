@@ -32,6 +32,14 @@
 
 Тема: **n8n**.
 
-В лабораторной работе реализованы workflow с Manual Trigger, Edit Fields (Set), Code, IF, HTTP Request, Schedule Trigger и Redis. Дополнительно выполнена **ачивка 5.2 — REST API заметок с Redis**.
+В лабораторной работе реализованы workflow с Manual Trigger, Edit Fields (Set), Code, IF, HTTP Request, Schedule Trigger и Redis. Дополнительно выполнена **ачивка 5.3 — REST API заметок с JSON-файлом**.
 
 Материалы лабораторной находятся в каталоге `lab4`.
+
+## Лабораторная работа №5
+
+Тема: **чат-боты**.
+
+Выбран трек C — TypeBot. Локально развёрнуты Builder и Viewer, русифицирован FAQ-шаблон и создан бот `lab5-gantsevich-student-helper` с переменными, условием, ветвлением, HTTP Request, изменённой темой и web-публикацией.
+
+Материалы лабораторной находятся в каталоге `lab5`.
