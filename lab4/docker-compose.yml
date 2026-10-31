@@ -10,6 +10,7 @@ services:
       - TZ=Europe/Minsk
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_SECURE_COOKIE=false
+      - NODE_FUNCTION_ALLOW_BUILTIN=fs,path
     volumes:
       - ./n8n-data:/home/node/.n8n
       - ./data:/data

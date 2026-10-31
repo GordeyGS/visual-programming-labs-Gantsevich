@@ -7,7 +7,7 @@
 
 В работе n8n используется как low-code платформа для сборки и запуска workflow. Реализованы ручной и плановый запуск, преобразование данных, JavaScript-логика, условное ветвление, HTTP-запрос и работа с Redis.
 
-Дополнительно выполнена ачивка 5.2: REST API для CRUD-операций над заметками, где Redis используется как хранилище.
+Дополнительно выполнена ачивка 5.3: REST API для CRUD-операций над заметками, где данные хранятся в локальном JSON-файле.
 
 ## Установка и запуск
 
@@ -57,41 +57,41 @@ Schedule Trigger запускает workflow каждые 5 минут. Code в�
 
 Первый workflow создаёт и читает ключ `gantsevich`. Второй удаляет ключ и проверяет его отсутствие. Процесс подробно описан в `redis.md`.
 
-## Ачивка 5.2 — REST API заметок с Redis
+## Ачивка 5.3 — REST API заметок с JSON-файлом
 
-Workflow `flow-11-notes-api-redis.json` реализует:
+Workflow `flow-11-notes-api-json.json` реализует:
 
 | Метод | Endpoint | Действие |
 |---|---|---|
-| POST | `/webhook/lab4/gantsevich/notes` | создать заметку |
-| GET | `/webhook/lab4/gantsevich/notes` | получить список |
-| GET | `/webhook/lab4/gantsevich/notes/item?id=<id>` | получить одну заметку |
-| PUT | `/webhook/lab4/gantsevich/notes/item?id=<id>` | изменить заметку |
-| DELETE | `/webhook/lab4/gantsevich/notes/item?id=<id>` | удалить заметку |
+| POST | `/webhook/lab4/gantsevich/notes-json` | создать заметку |
+| GET | `/webhook/lab4/gantsevich/notes-json` | получить список |
+| GET | `/webhook/lab4/gantsevich/notes-json/item?id=<id>` | получить одну заметку |
+| PUT | `/webhook/lab4/gantsevich/notes-json/item?id=<id>` | изменить заметку |
+| DELETE | `/webhook/lab4/gantsevich/notes-json/item?id=<id>` | удалить заметку |
 
-Ключ Redis имеет формат `notes:gantsevich:<id>`, значение — JSON-строка. После импорта нужно выбрать credentials `Redis local` в Redis-нодах и активировать workflow.
+Все заметки хранятся в массиве в файле `/data/notes-gantsevich.json`. Каталог `lab4/data` подключён в контейнер n8n как `/data`, поэтому содержимое сохраняется между перезапусками. Code-ноды читают файл, изменяют массив и записывают его обратно в форматированном JSON. Дополнительные credentials не требуются.
 
 Пример создания:
 
 ```bash
-curl -X POST http://localhost:5678/webhook/lab4/gantsevich/notes \
+curl -X POST http://localhost:5678/webhook/lab4/gantsevich/notes-json \
   -H 'Content-Type: application/json' \
-  -d '{"id":"demo","title":"Защита лабы","text":"Повторить Redis и Webhook"}'
+  -d '{"id":"demo","title":"Защита лабы","text":"Повторить JSON и Webhook"}'
 ```
 
 ## Примеры AI-промптов
 
 1. «Сгенерируй Code node n8n с `let/const`, `if/else`, циклом, массивом и объектом; верни результат в `payload`».
 2. «Помоги собрать в n8n workflow Set → Get и Delete → Exists для Redis с ключом `gantsevich`».
-3. «Спроектируй REST API заметок на Webhook-нодах n8n с Redis в качестве хранилища».
+3. «Спроектируй REST API заметок на Webhook-нодах n8n с хранением массива заметок в JSON-файле».
 
 ## Освоенные ноды
 
-`Manual Trigger`, `Edit Fields (Set)`, `Code`, `No Operation`, `IF`, `HTTP Request`, `Schedule Trigger`, `Redis`, `Webhook`, `Respond to Webhook`.
+`Manual Trigger`, `Edit Fields (Set)`, `Code`, `No Operation`, `IF`, `HTTP Request`, `Schedule Trigger`, `Redis`, `Webhook`, `Respond to Webhook`. В ачивке Code-ноды дополнительно работают с файловой системой Node.js через модуль `fs`.
 
 ## Проверка
 
-Все 9 JSON-файлов успешно импортированы в n8n 2.43.7. Через CLI n8n успешно выполнены Flow 01–05, Redis Set/Get и Redis Delete/проверка. HTTP Request получил корректный JSON от публичного API. Redis-тест вернул записанное значение, а после удаления — `exists = false`. REST API дополнительно проверен полным циклом: create, list, update, read и delete; все ответы вернули `ok = true`.
+Все 9 JSON-файлов успешно импортированы в n8n 2.43.7. Через CLI n8n успешно выполнены Flow 01–05, Redis Set/Get и Redis Delete/проверка. HTTP Request получил корректный JSON от публичного API. Redis-тест вернул записанное значение, а после удаления — `exists = false`. REST API с JSON-файлом дополнительно проверен полным циклом: create, list, update, read и delete; все ответы вернули `ok = true`, а изменения сохранились в `data/notes-gantsevich.json`.
 
 ## Скриншоты для защиты
 
@@ -110,5 +110,5 @@ curl -X POST http://localhost:5678/webhook/lab4/gantsevich/notes \
 
 ## Выводы
 
-В ходе работы я освоил принцип сборки workflow из триггеров и нод обработки, научился передавать JSON между нодами, выполнять HTTP-запросы и ветвить поток по условию. Redis показал, что внешнее key-value хранилище можно использовать как для простых операций Set/Get/Delete, так и в качестве хранилища REST API. Экспорт workflow в JSON делает визуальную логику версионируемой и воспроизводимой.
+В ходе работы я освоил принцип сборки workflow из триггеров и нод обработки, научился передавать JSON между нодами, выполнять HTTP-запросы и ветвить поток по условию. Redis использован для базовых операций Set/Get/Delete, а в индивидуальной ачивке данные REST API сохраняются без отдельной базы — в обычном JSON-файле. Экспорт workflow в JSON делает визуальную логику версионируемой и воспроизводимой.
 

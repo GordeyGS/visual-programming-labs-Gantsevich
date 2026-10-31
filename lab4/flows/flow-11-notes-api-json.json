@@ -1,0 +1,81 @@
+{
+  "name": "Lab4 Achievement 5.3 - Notes API JSON",
+  "nodes": [
+    {
+      "parameters": {"httpMethod":"POST","path":"lab4/gantsevich/notes-json","responseMode":"responseNode","options":{}},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f101","name":"POST note","type":"n8n-nodes-base.webhook","typeVersion":2.1,"position":[-600,-360],"webhookId":"post-gantsevich-note-json"
+    },
+    {
+      "parameters": {"jsCode":"const fs = require('fs');\nconst file = '/data/notes-gantsevich.json';\nconst body = $json.body ?? {};\nif (!body.title) throw new Error('title is required');\nlet notes = [];\ntry { notes = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (error) { if (error.code !== 'ENOENT') throw error; }\nconst id = String(body.id ?? Date.now());\nif (notes.some(note => note.id === id)) throw new Error('note with this id already exists');\nconst note = { id, title: body.title, text: body.text ?? '', author: 'Gantsevich', createdAt: new Date().toISOString() };\nnotes.push(note);\nfs.writeFileSync(file, JSON.stringify(notes, null, 2));\nreturn [{ json: { ok: true, operation: 'created', storage: file, note } }];"},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f102","name":"Create note in JSON","type":"n8n-nodes-base.code","typeVersion":2,"position":[-340,-360]
+    },
+    {
+      "parameters":{"respondWith":"firstIncomingItem","options":{"responseCode":201}},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f103","name":"Created response","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[-60,-360]
+    },
+    {
+      "parameters":{"path":"lab4/gantsevich/notes-json","responseMode":"responseNode","options":{}},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f104","name":"GET notes","type":"n8n-nodes-base.webhook","typeVersion":2.1,"position":[-600,-140],"webhookId":"get-gantsevich-notes-json"
+    },
+    {
+      "parameters":{"jsCode":"const fs = require('fs');\nconst file = '/data/notes-gantsevich.json';\nlet notes = [];\ntry { notes = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (error) { if (error.code !== 'ENOENT') throw error; }\nreturn [{ json: { ok: true, storage: file, count: notes.length, notes } }];"},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f105","name":"List notes from JSON","type":"n8n-nodes-base.code","typeVersion":2,"position":[-340,-140]
+    },
+    {
+      "parameters":{"respondWith":"firstIncomingItem","options":{}},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f106","name":"List response","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[-60,-140]
+    },
+    {
+      "parameters":{"path":"lab4/gantsevich/notes-json/item","responseMode":"responseNode","options":{}},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f107","name":"GET note by id","type":"n8n-nodes-base.webhook","typeVersion":2.1,"position":[-600,80],"webhookId":"get-gantsevich-note-json"
+    },
+    {
+      "parameters":{"jsCode":"const fs = require('fs');\nconst file = '/data/notes-gantsevich.json';\nconst id = String($json.query?.id ?? '');\nlet notes = [];\ntry { notes = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (error) { if (error.code !== 'ENOENT') throw error; }\nconst note = notes.find(item => item.id === id);\nreturn [{ json: note ? { ok: true, note } : { ok: false, error: 'Note not found', id } }];"},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f108","name":"Read note from JSON","type":"n8n-nodes-base.code","typeVersion":2,"position":[-340,80]
+    },
+    {
+      "parameters":{"respondWith":"firstIncomingItem","options":{}},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f109","name":"Get response","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[-60,80]
+    },
+    {
+      "parameters":{"httpMethod":"PUT","path":"lab4/gantsevich/notes-json/item","responseMode":"responseNode","options":{}},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f110","name":"PUT note","type":"n8n-nodes-base.webhook","typeVersion":2.1,"position":[-600,300],"webhookId":"put-gantsevich-note-json"
+    },
+    {
+      "parameters":{"jsCode":"const fs = require('fs');\nconst file = '/data/notes-gantsevich.json';\nconst id = String($json.query?.id ?? '');\nconst body = $json.body ?? {};\nif (!id) throw new Error('id query parameter is required');\nif (!body.title) throw new Error('title is required');\nlet notes = [];\ntry { notes = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (error) { if (error.code !== 'ENOENT') throw error; }\nconst index = notes.findIndex(note => note.id === id);\nif (index < 0) return [{ json: { ok: false, error: 'Note not found', id } }];\nconst note = { ...notes[index], title: body.title, text: body.text ?? '', updatedAt: new Date().toISOString() };\nnotes[index] = note;\nfs.writeFileSync(file, JSON.stringify(notes, null, 2));\nreturn [{ json: { ok: true, operation: 'updated', storage: file, note } }];"},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f111","name":"Update note in JSON","type":"n8n-nodes-base.code","typeVersion":2,"position":[-340,300]
+    },
+    {
+      "parameters":{"respondWith":"firstIncomingItem","options":{}},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f112","name":"Updated response","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[-60,300]
+    },
+    {
+      "parameters":{"httpMethod":"DELETE","path":"lab4/gantsevich/notes-json/item","responseMode":"responseNode","options":{}},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f113","name":"DELETE note","type":"n8n-nodes-base.webhook","typeVersion":2.1,"position":[-600,520],"webhookId":"delete-gantsevich-note-json"
+    },
+    {
+      "parameters":{"jsCode":"const fs = require('fs');\nconst file = '/data/notes-gantsevich.json';\nconst id = String($json.query?.id ?? '');\nlet notes = [];\ntry { notes = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (error) { if (error.code !== 'ENOENT') throw error; }\nconst before = notes.length;\nnotes = notes.filter(note => note.id !== id);\nconst deleted = notes.length < before;\nif (deleted) fs.writeFileSync(file, JSON.stringify(notes, null, 2));\nreturn [{ json: deleted ? { ok: true, operation: 'deleted', id, storage: file } : { ok: false, error: 'Note not found', id } }];"},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f114","name":"Delete note from JSON","type":"n8n-nodes-base.code","typeVersion":2,"position":[-340,520]
+    },
+    {
+      "parameters":{"respondWith":"firstIncomingItem","options":{}},
+      "id":"0a45bd0e-39f9-4a24-b7af-a0df9f84f115","name":"Deleted response","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[-60,520]
+    }
+  ],
+  "connections": {
+    "POST note":{"main":[[{"node":"Create note in JSON","type":"main","index":0}]]},
+    "Create note in JSON":{"main":[[{"node":"Created response","type":"main","index":0}]]},
+    "GET notes":{"main":[[{"node":"List notes from JSON","type":"main","index":0}]]},
+    "List notes from JSON":{"main":[[{"node":"List response","type":"main","index":0}]]},
+    "GET note by id":{"main":[[{"node":"Read note from JSON","type":"main","index":0}]]},
+    "Read note from JSON":{"main":[[{"node":"Get response","type":"main","index":0}]]},
+    "PUT note":{"main":[[{"node":"Update note in JSON","type":"main","index":0}]]},
+    "Update note in JSON":{"main":[[{"node":"Updated response","type":"main","index":0}]]},
+    "DELETE note":{"main":[[{"node":"Delete note from JSON","type":"main","index":0}]]},
+    "Delete note from JSON":{"main":[[{"node":"Deleted response","type":"main","index":0}]]}
+  },
+  "active": false,
+  "settings":{"executionOrder":"v1","timezone":"Europe/Minsk"},
+  "meta":{"templateCredsSetupCompleted":true},
+  "tags":[]
+}
