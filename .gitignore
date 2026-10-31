@@ -6,3 +6,7 @@ lab4/n8n-data/
 lab4/redis-data/
 lab4/data/*.json
 
+# Local Typebot state and secrets
+lab5/.env
+lab5/.typebot/
+
