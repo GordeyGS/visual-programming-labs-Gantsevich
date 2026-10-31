@@ -1,0 +1,296 @@
+{
+  "version": "6.1",
+  "id": "lab5-gantsevich-student-helper",
+  "name": "lab5-gantsevich-student-helper",
+  "events": [
+    {
+      "id": "event-start",
+      "outgoingEdgeId": "edge-start",
+      "graphCoordinates": { "x": 0, "y": 0 },
+      "type": "start"
+    }
+  ],
+  "groups": [
+    {
+      "id": "group-welcome",
+      "title": "Приветствие",
+      "graphCoordinates": { "x": 300, "y": 0 },
+      "blocks": [
+        {
+          "id": "text-welcome",
+          "type": "text",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Привет! 👋 Я учебный помощник Гордея Ганцевича из группы СДП-ИИ-241." }] },
+              { "type": "p", "children": [{ "text": "Я помогу найти информацию по лабораторным работам и покажу интеграцию TypeBot с внешним API." }] }
+            ]
+          }
+        },
+        {
+          "id": "text-ask-name",
+          "type": "text",
+          "content": { "richText": [{ "type": "p", "children": [{ "text": "Как тебя зовут?" }] }] }
+        },
+        {
+          "id": "input-name",
+          "outgoingEdgeId": "edge-welcome-profile",
+          "type": "text input",
+          "options": {
+            "variableId": "var-name",
+            "labels": { "placeholder": "Введите имя" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-profile",
+      "title": "Данные студента и условие",
+      "graphCoordinates": { "x": 700, "y": 0 },
+      "blocks": [
+        {
+          "id": "text-ask-group",
+          "type": "text",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Приятно познакомиться, {{Имя}}!" }] },
+              { "type": "p", "children": [{ "text": "Укажи свою учебную группу." }] }
+            ]
+          }
+        },
+        {
+          "id": "input-group",
+          "type": "text input",
+          "options": {
+            "variableId": "var-group",
+            "labels": { "placeholder": "Например, СДП-ИИ-241" }
+          }
+        },
+        {
+          "id": "condition-group",
+          "outgoingEdgeId": "edge-condition-other",
+          "type": "Condition",
+          "items": [
+            {
+              "id": "condition-group-match",
+              "outgoingEdgeId": "edge-condition-match",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "comparison-group",
+                    "variableId": "var-group",
+                    "comparisonOperator": "Equal to",
+                    "value": "СДП-ИИ-241"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "group-recognized",
+      "title": "Своя группа",
+      "graphCoordinates": { "x": 1100, "y": -180 },
+      "blocks": [
+        {
+          "id": "text-recognized",
+          "outgoingEdgeId": "edge-recognized-menu",
+          "type": "text",
+          "content": { "richText": [{ "type": "p", "children": [{ "text": "Отлично, {{Имя}}! Мы из одной группы — СДП-ИИ-241 ✅" }] }] }
+        }
+      ]
+    },
+    {
+      "id": "group-other",
+      "title": "Другая группа",
+      "graphCoordinates": { "x": 1100, "y": 180 },
+      "blocks": [
+        {
+          "id": "text-other",
+          "outgoingEdgeId": "edge-other-menu",
+          "type": "text",
+          "content": { "richText": [{ "type": "p", "children": [{ "text": "Твоя группа отличается от СДП-ИИ-241, но основные материалы всё равно могут пригодиться." }] }] }
+        }
+      ]
+    },
+    {
+      "id": "group-menu",
+      "title": "Главное меню",
+      "graphCoordinates": { "x": 1500, "y": 0 },
+      "blocks": [
+        {
+          "id": "text-menu",
+          "type": "text",
+          "content": { "richText": [{ "type": "p", "children": [{ "text": "{{Имя}}, что тебя интересует?" }] }] }
+        },
+        {
+          "id": "choice-menu",
+          "type": "choice input",
+          "items": [
+            { "id": "choice-schedule", "outgoingEdgeId": "edge-menu-schedule", "content": "Расписание работы" },
+            { "id": "choice-lab", "outgoingEdgeId": "edge-menu-lab", "content": "Как подготовить лабораторную" },
+            { "id": "choice-fact", "outgoingEdgeId": "edge-menu-fact", "content": "Интересный факт из API" },
+            { "id": "choice-question", "outgoingEdgeId": "edge-menu-question", "content": "Задать свой вопрос" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "group-schedule",
+      "title": "Расписание",
+      "graphCoordinates": { "x": 1900, "y": -360 },
+      "blocks": [
+        {
+          "id": "text-schedule",
+          "type": "text",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Рекомендуемый план:" }] },
+              { "type": "p", "children": [{ "text": "1. Изучить задание." }] },
+              { "type": "p", "children": [{ "text": "2. Собрать и проверить сценарий." }] },
+              { "type": "p", "children": [{ "text": "3. Сделать скриншоты и подготовиться к защите." }] }
+            ]
+          }
+        },
+        { "id": "jump-schedule", "type": "Jump", "options": { "groupId": "group-menu", "blockId": "choice-menu" } }
+      ]
+    },
+    {
+      "id": "group-lab",
+      "title": "Подготовка лабораторной",
+      "graphCoordinates": { "x": 1900, "y": -80 },
+      "blocks": [
+        {
+          "id": "text-lab",
+          "type": "text",
+          "content": { "richText": [{ "type": "p", "children": [{ "text": "Для сдачи нужны рабочий бот, JSON-экспорт, скриншоты, отчёт и минимум шесть осмысленных Git-коммитов." }] }] }
+        },
+        {
+          "id": "set-status",
+          "type": "Set variable",
+          "options": { "variableId": "var-status", "expressionToEvaluate": "Материалы к защите просмотрены" }
+        },
+        {
+          "id": "text-status",
+          "type": "text",
+          "content": { "richText": [{ "type": "p", "children": [{ "text": "Статус: {{Статус}} ✅" }] }] }
+        },
+        { "id": "jump-lab", "type": "Jump", "options": { "groupId": "group-menu", "blockId": "choice-menu" } }
+      ]
+    },
+    {
+      "id": "group-fact",
+      "title": "HTTP Request",
+      "graphCoordinates": { "x": 1900, "y": 220 },
+      "blocks": [
+        {
+          "id": "text-fact-loading",
+          "type": "text",
+          "content": { "richText": [{ "type": "p", "children": [{ "text": "Получаю случайный факт из внешнего API…" }] }] }
+        },
+        {
+          "id": "http-cat-fact",
+          "type": "Webhook",
+          "options": {
+            "responseVariableMapping": [
+              { "id": "map-fact", "variableId": "var-fact", "bodyPath": "data.fact" }
+            ],
+            "isAdvancedConfig": true,
+            "webhook": { "method": "GET", "url": "https://catfact.ninja/fact" }
+          }
+        },
+        {
+          "id": "text-fact-result",
+          "type": "text",
+          "content": { "richText": [{ "type": "p", "children": [{ "text": "Факт: {{Факт}}" }] }] }
+        },
+        { "id": "jump-fact", "type": "Jump", "options": { "groupId": "group-menu", "blockId": "choice-menu" } }
+      ]
+    },
+    {
+      "id": "group-question",
+      "title": "Свой вопрос",
+      "graphCoordinates": { "x": 1900, "y": 540 },
+      "blocks": [
+        {
+          "id": "text-question",
+          "type": "text",
+          "content": { "richText": [{ "type": "p", "children": [{ "text": "Напиши вопрос, который нужно разобрать." }] }] }
+        },
+        {
+          "id": "input-question",
+          "type": "text input",
+          "options": {
+            "variableId": "var-question",
+            "isLong": true,
+            "labels": { "placeholder": "Введите вопрос" }
+          }
+        },
+        {
+          "id": "text-question-saved",
+          "type": "text",
+          "content": { "richText": [{ "type": "p", "children": [{ "text": "Вопрос «{{Вопрос}}» сохранён в результатах диалога. Спасибо!" }] }] }
+        },
+        { "id": "jump-question", "type": "Jump", "options": { "groupId": "group-menu", "blockId": "choice-menu" } }
+      ]
+    }
+  ],
+  "edges": [
+    { "id": "edge-start", "from": { "eventId": "event-start" }, "to": { "groupId": "group-welcome" } },
+    { "id": "edge-welcome-profile", "from": { "blockId": "input-name" }, "to": { "groupId": "group-profile" } },
+    { "id": "edge-condition-match", "from": { "blockId": "condition-group", "itemId": "condition-group-match" }, "to": { "groupId": "group-recognized" } },
+    { "id": "edge-condition-other", "from": { "blockId": "condition-group" }, "to": { "groupId": "group-other" } },
+    { "id": "edge-recognized-menu", "from": { "blockId": "text-recognized" }, "to": { "groupId": "group-menu" } },
+    { "id": "edge-other-menu", "from": { "blockId": "text-other" }, "to": { "groupId": "group-menu" } },
+    { "id": "edge-menu-schedule", "from": { "blockId": "choice-menu", "itemId": "choice-schedule" }, "to": { "groupId": "group-schedule" } },
+    { "id": "edge-menu-lab", "from": { "blockId": "choice-menu", "itemId": "choice-lab" }, "to": { "groupId": "group-lab" } },
+    { "id": "edge-menu-fact", "from": { "blockId": "choice-menu", "itemId": "choice-fact" }, "to": { "groupId": "group-fact" } },
+    { "id": "edge-menu-question", "from": { "blockId": "choice-menu", "itemId": "choice-question" }, "to": { "groupId": "group-question" } }
+  ],
+  "variables": [
+    { "id": "var-name", "name": "Имя", "isSessionVariable": true },
+    { "id": "var-group", "name": "Группа", "isSessionVariable": true },
+    { "id": "var-status", "name": "Статус", "isSessionVariable": true },
+    { "id": "var-fact", "name": "Факт", "isSessionVariable": true },
+    { "id": "var-question", "name": "Вопрос", "isSessionVariable": true }
+  ],
+  "theme": {
+    "general": { "background": { "type": "Color", "content": "#eef6ff" } },
+    "chat": {
+      "hostBubbles": { "backgroundColor": "#173b66", "color": "#ffffff" },
+      "guestBubbles": { "backgroundColor": "#d8ebff", "color": "#10243e" },
+      "buttons": { "backgroundColor": "#1d8a68", "color": "#ffffff" },
+      "inputs": { "backgroundColor": "#ffffff", "color": "#10243e", "placeholderColor": "#6b7f95" }
+    }
+  },
+  "selectedThemeTemplateId": null,
+  "settings": {
+    "general": {
+      "isBrandingEnabled": false,
+      "systemMessages": {
+        "invalidMessage": "Некорректный ответ. Попробуйте ещё раз.",
+        "botClosed": "Этот бот сейчас закрыт.",
+        "networkErrorTitle": "Ошибка сети",
+        "networkErrorMessage": "Проверьте подключение и повторите попытку.",
+        "popupBlockedTitle": "Всплывающее окно заблокировано",
+        "popupBlockedDescription": "Разрешите открытие новой вкладки в браузере.",
+        "popupBlockedButtonLabel": "Продолжить в новой вкладке",
+        "fileUploadError": "Не удалось загрузить файл.",
+        "fileUploadSizeError": "Файл [[file]] превышает лимит [[limit]] МБ.",
+        "whatsAppPictureChoiceSelectLabel": "Выбрать"
+      }
+    }
+  },
+  "createdAt": "2026-10-31T02:45:00.000Z",
+  "updatedAt": "2026-10-31T02:45:00.000Z",
+  "icon": "🎓",
+  "folderId": null,
+  "publicId": null,
+  "customDomain": null,
+  "workspaceId": "lab5-gantsevich",
+  "resultsTablePreferences": null,
+  "isArchived": false,
+  "isClosed": false,
+  "whatsAppCredentialsId": null
+}
