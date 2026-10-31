@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lab6 Gantsevich — Kodular Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="stage">
+    <section class="phone" aria-label="Демонстрация приложения">
+      <header class="appbar">Lab6 Gantsevich</header>
+      <section id="mainScreen" class="screen greeting-screen">
+        <div class="brand">G</div>
+        <p class="eyebrow">Лабораторная работа №6</p>
+        <h1>Введите имя</h1>
+        <label for="nameInput">Имя пользователя</label>
+        <input id="nameInput" placeholder="Ваше имя" autocomplete="off">
+        <button id="greetButton" class="primary">Поздороваться</button>
+        <p id="result" class="result">Здесь будет приветствие</p>
+        <button id="openSiteButton" class="secondary">Открыть сайт университета</button>
+        <p class="surname">Gantsevich <span>•</span> СДП-ИИ-241</p>
+      </section>
+
+      <section id="webScreen" class="screen web-screen" hidden>
+        <div class="web-toolbar">
+          <span class="lock">🔒</span>
+          <span>www.grsu.by</span>
+        </div>
+        <div class="web-content">
+          <p class="university-kicker">Гродненский государственный университет</p>
+          <h2>ГрГУ имени Янки Купалы</h2>
+          <p>Официальный сайт открыт внутри компонента Web Viewer.</p>
+          <div class="web-cards">
+            <div>Абитуриентам</div>
+            <div>Студентам</div>
+            <div>Новости</div>
+          </div>
+          <p class="url-note">https://www.grsu.by</p>
+        </div>
+        <button id="backButton" class="primary back">Вернуться к приветствию</button>
+      </section>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
+

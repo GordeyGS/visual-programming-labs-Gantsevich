@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Блоки Kodular — Lab6 Gantsevich</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f2f4f7;color:#263238;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.workspace{min-height:100vh;padding:32px 38px;background-image:radial-gradient(#c8ced5 1px,transparent 1px);background-size:20px 20px}.title{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}.title h1{margin:0;font-size:26px}.badge{padding:9px 14px;border-radius:999px;background:#1565c0;color:#fff;font-weight:700}.grid{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:start}.stack{display:grid;gap:20px}.event{padding:16px 18px;border-radius:14px;background:#c17b16;color:#fff;box-shadow:0 10px 25px rgba(58,70,82,.13)}.event>strong{display:block;margin-bottom:12px;font-size:17px}.inside{display:grid;gap:10px;padding-left:18px}.control{padding:15px;border-radius:12px;background:#dba21c;color:#fff}.condition{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;margin:9px 0;padding:10px;border-radius:10px;background:#4a90a4}.property{padding:10px 12px;border-radius:9px;background:#43a047;color:#fff}.text{padding:9px 11px;border-radius:9px;background:#e65f4f;color:#fff}.join{padding:11px;border-radius:9px;background:#e65f4f}.logic{padding:9px;border-radius:9px;background:#4a90a4}.method{padding:11px;border-radius:9px;background:#7e57c2;color:#fff}.arrow{opacity:.85;font-weight:800}.small{font-size:13px;opacity:.9}.legend{margin-top:26px;display:flex;gap:14px;flex-wrap:wrap}.legend span{padding:8px 11px;border-radius:9px;color:#fff;font-size:13px;font-weight:700}.orange{background:#c17b16}.yellow{background:#dba21c}.green{background:#43a047}.purple{background:#7e57c2}.red{background:#e65f4f}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="workspace">
+    <header class="title"><h1>Lab6 Gantsevich — Blocks</h1><span class="badge">Ачивка 9 • Web Viewer</span></header>
+    <section class="grid">
+      <div class="event">
+        <strong>when GreetingButton.Click</strong>
+        <div class="inside">
+          <div class="control"><b>if</b><div class="condition"><span>NameTextBox.Text</span><b>=</b><span class="text">""</span></div>
+            <div class="property">set ResultLabel.Text to <span class="text">"Введите имя!"</span></div>
+            <div style="margin:10px 0 6px"><b>else</b></div>
+            <div class="property">set ResultLabel.Text to
+              <div class="join">join <span>"Привет, "</span> <span class="property">NameTextBox.Text</span> <span>"!"</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="event"><strong>when OpenUniversityButton.Click</strong><div class="inside"><div class="property">set MainLayout.Visible to <span class="logic">false</span></div><div class="property">set WebLayout.Visible to <span class="logic">true</span></div><div class="method">call UniversityWebViewer.GoToUrl <span class="text">"https://www.grsu.by"</span></div></div></div>
+        <div class="event"><strong>when BackButton.Click</strong><div class="inside"><div class="property">set WebLayout.Visible to <span class="logic">false</span></div><div class="property">set MainLayout.Visible to <span class="logic">true</span></div></div></div>
+      </div>
+    </section>
+    <footer class="legend"><span class="orange">События</span><span class="yellow">Условие if / else</span><span class="green">Свойства компонентов</span><span class="purple">Метод WebViewer</span><span class="red">Текст и join</span></footer>
+  </main>
+</body>
+</html>
