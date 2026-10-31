@@ -17,6 +17,8 @@ docker compose up -d
 
 Для входа укажите `student@mf.grsu.by`. Одноразовая ссылка придёт в локальный Mailpit.
 
+После входа импортируйте `exports/flow-01-gantsevich-student-helper.json`, проверьте граф и нажмите Publish. Подробный сценарий проверки находится в `docs/testing.md`, памятка для защиты — в `DEFENSE.md`.
+
 ## Остановка
 
 ```bash
